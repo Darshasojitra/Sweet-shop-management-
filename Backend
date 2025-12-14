@@ -1,0 +1,26 @@
+@Service
+public class SweetService {
+
+    private final SweetRepository repository;
+
+    public SweetService(SweetRepository repository) {
+        this.repository = repository;
+    }
+
+    public Sweet purchase(Long sweetId, int amount) {
+        Sweet sweet = repository.findById(sweetId)
+                .orElseThrow(() -> new NoSuchElementException("Sweet not found"));
+
+        sweet.purchase(amount);
+        return repository.save(sweet);
+    }
+
+    public Sweet restock(Long sweetId, int amount) {
+        Sweet sweet = repository.findById(sweetId)
+                .orElseThrow(() -> new NoSuchElementException("Sweet not found"));
+
+        sweet.restock(amount);
+        return repository.save(sweet);
+    }
+}
+
