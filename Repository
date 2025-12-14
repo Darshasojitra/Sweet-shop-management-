@@ -1,3 +1,4 @@
 public interface SweetRepository extends JpaRepository<Sweet, Long> {
 }
 
+resource Link: https://github.com/Anshu-Net/sweet-shop-management-system
