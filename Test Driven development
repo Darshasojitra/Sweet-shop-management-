@@ -1,0 +1,32 @@
+class SweetServiceTest {
+
+    private SweetRepository repository;
+    private SweetService service;
+
+    @BeforeEach
+    void setUp() {
+        repository = mock(SweetRepository.class);
+        service = new SweetService(repository);
+    }
+
+    @Test
+    void purchaseReducesQuantity() {
+        Sweet sweet = new Sweet("Ladoo", "Indian", BigDecimal.valueOf(10), 5);
+        when(repository.findById(1L)).thenReturn(Optional.of(sweet));
+        when(repository.save(any())).thenAnswer(i -> i.getArgument(0));
+
+        Sweet result = service.purchase(1L, 2);
+
+        assertEquals(3, result.getQuantity());
+    }
+
+    @Test
+    void purchaseFailsWhenStockIsInsufficient() {
+        Sweet sweet = new Sweet("Barfi", "Indian", BigDecimal.valueOf(15), 1);
+        when(repository.findById(1L)).thenReturn(Optional.of(sweet));
+
+        assertThrows(IllegalStateException.class,
+                () -> service.purchase(1L, 2));
+    }
+}
+
