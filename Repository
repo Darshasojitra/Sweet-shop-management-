@@ -1,0 +1,3 @@
+public interface SweetRepository extends JpaRepository<Sweet, Long> {
+}
+
